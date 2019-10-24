@@ -24,8 +24,8 @@ items(dessert, rasmalai, 10).
 
 find_items(hungry,1,1,1) :- items(starter,A,_),items(main,M,_),items(dessert,X,_),write('Items:'),nl,write(A),nl,write(M),nl,write(X).
 
-find_items(notSoHungry,1,1,0) :- items(starter,A,_),items(main,M,_),write('Items:'),nl,write(A),nl,write(M).
-find_items(notSoHungry,0,1,1) :- items(main,A,_),items(dessert,M,_),write('Items:'),nl,write(A),nl,write(M).
+find_items(notSoHungry,1,1,0) :- items(starter,A,X),items(main,M,Y),X+Y<81,write('Items:'),nl,write(A),nl,write(M).
+find_items(notSoHungry,0,1,1) :- items(main,A,X),items(dessert,M,Y),X+Y<81,write('Items:'),nl,write(A),nl,write(M).
 
 find_items(diet,1,0,0) :- items(starter,X,Y),write('Items:'),nl,Y<41,write(X).
 find_items(diet,1,0,0) :- items(starter,A,B),items(starter,X,Y),B+Y<41,A\=X,write('Items:'),nl,write(A),nl,write(X).
