@@ -1,19 +1,37 @@
+% PART A
+
+% the final recursion call boundary. 
 allPath(A, B, [A, B], L) :- not(member(B, L)), edge(A, B, _).
+
+% recursion defined.
 allPath(A, B, [A | Tail], L) :- [X | _] = Tail, edge(A, X, _), not(member(X, L)), append([X], L, Z), allPath(X, B, Tail, Z).
+
+% Caller function to get all possible paths.
 allPossible(X) :- member(A, [g1, g2, g3, g4]), allPath(A, g17, X, [A]).
 
 
+% PART B
+
+% helper function to get path Length recursively. 
 pathLength([A,B], Length) :- edge(A,B,Length).
 pathLength([A|Tail], Length) :- [B|_] = Tail, edge(A,B,Len), pathLength(Tail, Z), Length is Len + Z.
+
+% optimal path will have minimum path length among all possible paths. 
 greaterEqual(X,Y) :- pathLength(Y, YLen), pathLength(X, XLen), YLen>=XLen.
 minPath(X) :- allPossible(X), forall(allPossible(Y), greaterEqual(X,Y)).
 
 
+% PART C
+
+% should start with g1-g4, end with g17.
 valid([Head|Tail]) :- member(Head, [g1, g2, g3, g4]), validPath([Head|Tail], Z), Z = g17.
+
+% edges should be present among subsequent gates in the network.
 validPath([g17], g17).
 validPath([A|Tail], X) :- [B|_] = Tail, edge(A, B, _), validPath(Tail, X).
 validPath([A|Tail], X) :- [B|_] = Tail, edge(B, A, _), validPath(Tail, X).
 
+% all edges in the network (to-and-fro).
 
 edge(g1,g5,4). 
 edge(g5,g1,4).
